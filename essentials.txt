@@ -1,0 +1,665 @@
+Numbers, Operators and Expressions:
+• What’s the difference between an Integer and a Float?
+  integers are whole numbers
+  floats are imprecise fractions, if you need a precise fraction use BigDecimal type instead
+
+• Why should you be careful when converting back and forth between integers and floats?
+  numbers will get rounded to different amounts so if you go back and forth the number can slowly shift up/down
+
+• What’s the difference between =, ==, and ===?
+  = is assignment
+  == is equality
+  === is case operator (i.e. 1..5 === 3 => true; String === "hello" => true )
+
+• How do you do exponents in Ruby?
+  **
+  2**3 (two to the third power)
+
+• What is a range?
+  a set of values with a beginning and an end
+  two dots is inclusive of the last value, three dots is exclusive of it
+  (1..5)
+  ("a".."e") ==> "a", "b", "c", "d", "e"
+  ("a"..."e") ==> "a", "b", "c", "d"
+
+
+• How do you create a range?
+  Range.new(starting_value, end_value)
+  (starting_value..end_value)
+
+• What’s the difference between (1..3) and (1...3)?
+  three dots excludes the last value
+  two dots is inclusive
+
+• What are three ways to create a range?
+  (1..7)
+  Range.new(1,7)
+
+
+
+
+
+
+Strings:
+  • What’s the difference between single and double quotes?
+    You can interpolate when using double quotes. Otherwise they're the same.
+
+  • What is string interpolation?
+    Entering a variable directly into a string to be printed along with the string
+
+  • What are escape characters?
+    some are listed below, there are a few more besides these
+    \\ backspace                     \t  horizontal tab                   \n Linefeed (newline)
+    \' single quotes                  \\ double quotes
+
+  • What are line breaks?
+    breaks in lines
+
+  • How do you make other things into strings?
+    to_s
+
+  • How do you concatenate strings?
+    "#{string1} #{string2}"
+    "#{string1}" + "#{string2}"
+    string1 += string2
+    string1 << string2       PERFORMANT
+    string1.concat("string2")     PERFORMANT
+
+      When you use += ruby creates a temporal object which is result of str1 + str2. Then it overrides str1 variable with reference to the new built object. On other hand << modifies existing one.
+        example
+          str1 = "first"
+          str2 = "second"
+          str1.object_id       # => 16241320
+
+          str1 += str2    # str1 = str1 + str2
+          str1.object_id  # => 16241240, id is changed
+
+          str1 << str2
+          str1.object_id  # => 16241240, id is the same
+
+
+  • How do you access a specific character or substring?
+    string1[position]
+
+  • How do you split up strings into arrays?
+    string1.split(" ")
+
+  • How are strings and arrays similar?
+    You can access their values using [1]
+
+  • How do you get and clean up user input on the command line?
+    gets.chomp
+
+  • What does it mean that strings are “mutable” and why care?
+    mutable strings can be changed, we care because that affects performance and should be taken into account if you're referencing the same string in a bunch of different places
+
+  • What is a symbol?
+    like a string but only one exists, so any references to it are all pointing to the exact same object. symbols are immutable
+
+  • How is a symbol different from a string?
+    see above.
+
+
+  • What is a Regular Expression (RegEx)?
+
+
+  • How can you center or right-justify a string?
+    string1.center
+    string1.ljust
+
+
+
+
+
+
+  Arrays:  https://www.shortcutfoo.com/app/dojos/ruby-arrays/cheatsheet
+  What are three ways to create an array?
+  • Array.new(initialSize, defaultValue)
+  • [1,3,53,2,17]
+  • %w(monday tuesday wednesday thursday friday)
+
+  How do you pre-populate the array with default data?
+  • Array.new(initialSize, defaultValue)
+
+  How do you access items in an array?
+  • array[position]
+
+  How can you access a specific group of items in an array?
+  • array[start..end]
+  • array[starting_point, length]
+
+  How do you modify the items in an array?
+  • array[1] = "new thing"
+
+  How do you combine arrays?
+  • array1 + array2
+  • array1.concat(array2)
+  • array2.each { |i| array1 << i} PERFORMANT
+
+    iterating over and using << is the most performant because it modifies the array in place and doesn't create a new array, unlike + and concat()
+
+  How do you find the values in one array that aren’t in another?
+  • array1 - array2 => shows differences
+
+  How do you find values in both arrays?
+  • array1 & array 2 => show similarities
+
+  What is the difference between push/pop and shift/unshift?
+  • shift removes the first item of an array, unshift prepends a new item to an array
+  • pop removes the last item of an array, push appends a new item to an array
+
+  What is the shovel operator?
+  • <<
+  • it's an alias for concat and it's more performant than += for concatenating
+
+  How is > arr.pop different from > arr[-1]?
+  • arr.pop will actually remove the last item in the array, while arr[-1] will only reference it without actually modifying the array
+
+  How is pushing or <<ing another array into your array different from just adding them together?
+  • this will put the element onto the end of an array, so if you << another array you will end up with a nested array
+  [1,2,3] << [4,5,6]
+  => [1,2,3,[4,5,6]]
+
+  How do you delete items in an array?
+  • array.delete(object)     => this deletes ALL items that match the given object
+  • array.delete_at(index)   => this deletes the item at the given index
+  • array.delete_if { block }   => this deletes all items in the array for which the given block evaluates to true
+  • array.pop   => removes the last item of the array
+  • array.shift   => removes the first item of the array
+  • array.drop(number of items)   => removes the given number of items from the FRONT of the array
+  • array.slice(index, quantity)   => removes the given number of items starting at the given index
+  • array.compact   => makes a copy of array with all nil objects removed
+  • array.compact   => modifies array by removing all nil objects
+  • array.clear     => clears all items in the array
+
+  Why should you be careful deleting items in an array?
+  • it changes the index of other items in the array
+
+  How can you convert arrays to strings?
+  • .join(" ")
+  • to_s      doesn't work as expected, this returns "[1,2,3]". not "1, 2, 3" which is probably what we want
+  • string interpolation
+
+  How can you convert from other data types to arrays?
+  • [*item]
+  • Array(item)
+
+  How can you figure out if an array contains a particular value?
+  • array.include?(object)    => returns true/false if the object is included in the array
+
+  How do you find the biggest item in an array?
+  • array.max
+
+  How do you find the smallest item in an array?
+  • array.min
+
+  How do you remove any duplicates from your array?
+  • array.uniq
+
+  How do you find out how big an array is?
+  • array.length
+
+  How do you put an array in order?
+  • array.sort
+
+  What are the naming conventions for arrays?
+  • snake case
+
+  What should you store in arrays?
+  • dumb question
+
+
+
+
+
+  Hashes:
+  What is a hash?
+  • unordered list, like an array but you define the key instead of it being an indexed number
+
+
+  What are keys and values?
+  • use keys to find the values in a hash
+
+  How is a hash similar to an Array?
+  • they're both lists, with arrays being ordered and hash's being unordered
+
+  How is a hash different from an Array?
+  •
+
+  What are 3 ways to create a hash?
+  • { hi: "greeting", later: "greeting too"}    => in this form the keys are symbols
+  • { "hi" => "greeting", "later" => "greeting too" }    => these keys are strings
+  • Hash.new(obj)     => obj will be the default value for all items you add to this Hash, if you don't provide a default value then nil will be used
+
+
+  What is the hash rocket?
+  • => used in hashes
+
+  How do you access data in a hash?
+  • obj[:hi] => "greeting"       => if the key is a symbol
+  • obj["hi"] => "greeting"      => if they key is a string
+
+  How do you change data in a hash?
+  • hash[key] = new_value
+  • hash.each { |key, value| hash[key] = newValue }
+
+  What types of data are good to store in a hash?
+  •
+
+  What are options hashes?
+  • hashes passed into functions that hold options for the function
+    def thinger(arg1, arg2, options = {})
+
+  How do you delete data from a hash?
+  • hash.delete(key)
+
+  How do you add hashes together?
+  • hash1.merge(hash2), if ANY items have the same key AND NO BLOCK IS PROVIDED TO DEAL WITH IT, hash2's key-value pair will be included and hash1's will be replaced
+
+  How do you list out all the keys or values?
+  • hash.each { |key, value| puts "#{key} #{value}"}
+
+  How do you see if the hash contains a key or value?
+  • hash.include?(thing)
+
+  What is a set?
+  • Set is an array but it doesn't allow duplicate values
+  • Official definition from ruby docs:  a collection of unordered values with no duplicates.
+  • the == method for Sets only compares the contents of Set rather than the content and position as the Array == does
+
+
+
+
+
+  Dates and Times:
+  How do you get the current date and time?
+  • Time.now
+
+  How do you find just the Year? Month? Hour? Second? Weekday?
+  • Time.now.year => 2018
+  • Time.now.month => 12
+  • Time.now.hour => 8
+  • Time.now.s => 59
+  • Time.now.wday => 3    This returns an integer 0-6 with Sunday being 0
+
+  • Time.new.strftime("%Y %m %d") will return 2018 Feb 12
+
+  How do you create a Time specifically for 12/25/2013?
+  • Time.new(2013, 12, 25)
+
+  How do you find how many days have passed between two Time’s?
+
+
+  What’s the difference between UTC and GMT and Local times?
+  • UTC time standard
+  • GMT is a time zone
+
+  How would you find out the time that was 100 seconds ago? 10 days ago?
+  • 100.seconds.ago
+  • 10.days.ago
+
+
+
+
+  Other Random Stuff:
+  What is nil?
+  • Nil means nothing, it's used for variables that haven't yet been assigned to something or for functions that don't return anything
+
+  How do you check if something is nil?
+  • variable.nil?
+
+  What’s the difference between nil and blank and empty?
+  • nil is used to represent nothing
+  • blank evaluates to true if an item doesn't contain anything
+    • [].blank? => true
+    • {}.blank? => true
+    • "".blank? => true
+    • " ".blank? => true
+
+  Are the following nil or empty? * " ", "", [], [""], {}
+  • empty
+
+
+  What’s the difference between puts and p and print?
+  • print will print the item
+  • puts will print the item with a newline at the end, and will call to_s on the item
+  • p will print the item with a newline at the end and WILL NOT call to_s on it
+
+
+  What does inspect do?
+  • Returns a string containing a human-readable representation of obj. The default inspect shows the object's class name, an encoding of the object id, and a list of the instance variables and their values
+
+
+  What do +=, -=, *= and /= do?
+  • variable += means variable = variable + 1. it's often used for looping
+
+
+  What is parallel assignment?
+  • you can assign multiple variables in one line
+  • a, b = 1, 2
+  • a => 1
+  • b => 2
+  • a, b = b, a   This switches the values of a and b
+
+
+  What’s the easiest way to swap two variables?
+  • parallel assignment
+
+
+
+
+  Conditionals and Flow Control:
+  What is a “boolean”?
+  • true/false
+  What are “truthy” values?
+  • values that aren't falsey
+  Are nil, 0, "0", "", 1, [], {} and -1 considered true or false?
+  • they're all true except nil
+
+  When do you use elsif?
+  • when you have more than 2 branches of conditionals you're working with
+
+  When do you use unless?
+  • it's like the opposite of if
+
+  What does <=> do?
+  • combined comparison operator
+      • returns 0 if they're equal
+      • returns 1 if first value is greater
+      • returns -1 if second value is greater
+  Why might you define your own <=> method?
+  What do || and && and ! do?
+    • || is an OR statement
+    • && is an AND statement
+    • returns the opposite of the current boolean value AND is used to denote that methods are dangerous
+  What is returned by puts("woah") || true?
+  What is ||=?
+  • double pipe equals operator, if the item on the left evaluates to false then the variable is set to the on the item on the right
+  What is the ternary operator?
+  • it's a more succinct way of writing an if else statement
+  When should you use a case statement?
+  • when you have a lot of else branches in a conditional
+
+
+
+
+
+  Iteration:
+
+  What does loop do?
+  • loops over an array, string, etc for a certain amount of time/rounds
+
+  What are the two ways to denote a block of code?
+  • do end
+  • {}
+
+  What is an index variable?
+  • it notes the position in the array/iteration
+
+  How do you print out each item of a simple array [1,3,5,7] with:
+    loop?
+    loop do
+      puts "hi there FOREVER CUZ I'M AN INFINITE LOOOOOP!"
+    end
+
+    while?
+    while i > 0
+      puts "I is #{i}"
+      i-= 1
+    end
+
+    for?
+    for i in array1 do
+      puts "Here is the element at index #{i}: #{array1}"
+    end
+
+    #each?
+    array2.each do |item|
+      puts item
+    end
+
+    #times?
+    12.times do |i|
+      puts "hey there the index right now is #{i}"
+    end
+
+
+  What’s the difference between while and until?
+  • while continues as long as a condition remains true
+  • until continues until a condition is true
+
+  How do you stop a loop?
+  • break
+
+  How do you skip to the next iteration of a loop?
+  • next
+
+  How would you start the loop over again?
+  • retry
+
+  What are the (basic) differences between situations when you would use while vs #times vs #each?
+
+
+  What does nesting loops mean and when would you use it?
+  • nesting loops means a loop is within a loop, you can use this to iterate over an array within an array
+
+
+
+
+
+  Blocks, Procs, and Lambdas:
+  How is a block like a function?
+  • it can have it's own local variables
+
+  How is a block different from a function?
+  •
+
+  What are the two ways to declare a block?
+  • do ... end
+  • {}
+
+  How do you return data from a block?
+  • return
+
+  What happens if you include a return statement in a block?
+  • it returns the value and EXITS THE METHOD, so if you're iterating and returning items in a block, you'll get the first item and then exit the method
+
+  Why would you use a block instead of just creating a method?
+  • readability, simplicity, sometimes it could be annoying to take a hardcore functional approach and have a ton of small methods
+
+  What does yield do?
+  • stops executing the code in the method, then executes another block of code, then goes back to the original method
+
+  How do you pass arguments to a block from within a method?
+  • accept it as an argument in the method, and then pass it into the yield statement or the block
+
+  How do you check whether a block was actually passed in?
+  • block_given?
+
+  What is a proc?
+  • a block assigned to a variable, it's a reusable block
+
+  What’s the difference between a proc and a block?
+  • a proc is an actual object in ruby, and it's reusable
+
+  When would you use a proc instead of a block?
+  • when you're typing a block a bunch of times
+
+  What is a closure?
+  • a function that has access to the variables above it's scope, even when it's called outside of that context
+
+
+  THERE ARE THREE KINDS OF CLOSURES IN RUBY: blocks, Procs, and Lambdas
+
+  What is a lambda?
+  • it's a type of proc, it functions slightly differently - it'll require the EXACT number of arguments, and treats returns slightly differently than procs do
+
+  What’s difference between a lambda and a proc?
+  • lambdas check the number of arguments, procs don't
+  • They treat return differently
+    • lambdas will run the code in their outside context after return is called
+    • procs will exit the method when return is called CHECK THIS FOR CORRECT/BETTER DEFINITION
+
+  What is a Method (capital “M”)?
+  •
+
+  What do Methods basically allow you to do that could probably be pretty interesting when you’re writing some more advanced programs later on?
+  •
+
+
+
+
+  Enumerable and Modules:
+  What is a module?
+  • a collection of methods and constants
+
+  Why are modules useful?
+  • module instance variables become accessible to any classes that mix them in
+
+  What does #each do?
+  • iterates over something
+
+  What does #each return?
+  • nothing, you have to tell it what to return
+
+  What does #map do?
+  • maps over something
+
+  What does #map return?
+  • iterates over the elements of self passing them to the given block, and returns a new array with the modified elements
+
+  What is the difference between #map and #collect?
+  • they're the same
+
+  What does #select do?
+  • select is like filter() in JS, it returns all elements for which the given block returns true
+
+  What does #select return?
+  • an array, see above
+
+  What is the difference between #each #map and #select?
+  • select returns only those things that return true for the given block
+  • each returns the original block it was called on
+  • map returns a new array with the return values of the block
+
+  What does #inject do?
+  • it's the reduce method, works the same as reduce in JS
+
+  When might you use #inject?
+  • when you want to sum all values in an array, or otherwise combine all elements of an array
+
+  How do you check if every item in a hash fulfills a certain criteria?
+  • Enumerable.any? method
+
+  What about if none of the elements fulfill that criteria?
+  • Enumerable.all? method and check for the inverse
+
+  What (basically) is an enumerator?
+  •
+
+
+
+
+
+
+  Writing Methods:
+  What is the difference between a class method and an instance method?
+  • Class methods are methods that are called on a class and instance methods are methods that are called on an instance of a class.
+      • CLASS METHOD
+          class Car
+
+            def self.start
+              puts 'starting the engine'
+            end
+
+          end
+
+          Car.start ==> 'starting the engine'
+
+            OR
+
+          class Car
+
+            def class << self
+              def start
+                puts 'starting the engine'
+              end
+            end
+
+          end
+
+          Car.start ==> 'starting the engine'
+
+            OR
+
+          class Car; end
+            def Car.start
+              puts 'starting the engine'
+            end
+
+          Car.start ==> 'starting the engine'
+
+      • INSTANCE METHOD
+          class Car
+
+            def start
+              puts 'starting the engine'
+            end
+
+          end
+
+          car = Car.new
+
+          car.start ==> "starting the engine"
+
+  How many things should a method ideally do?
+  • one
+
+  What types of things should a method modify?
+  •
+
+  What should you name a method?
+  •
+
+  What does self mean?
+  •
+
+  What do you need to do to create your own Ruby script file?
+  •
+
+  How would you run a Ruby script from the command line?
+  • ruby FILE_PATH
+
+  How can you check whether your script was being run from the command line?
+  •
+
+  What is a shebang line?
+  •
+
+  What does require do?
+  • used to load libraries
+  • the file is searched for in the load path
+  • it can load extension libraries
+  • the `.rb`/`.so` extension can be omitted
+  • a given file is never loaded more than once
+  • calling require on the same file twice will only execute it once.
+
+  What does load do?
+  • it's used to load a file
+  • Pass it the absolute path to a ruby file and it will execute the code in that file
+  • Like `require`, it searches the file in `$:`.
+  • it can only load Ruby programs
+  • the extension cannot be omitted: the complete file name must always be given
+  • with load Global variables, classes, constants and methods are all imported, but not local variables
+  • Calling load twice on the same file will execute the code in that file twice.
+
+  What is the difference between require and load?
+  • See above
+
+  How do you access any parameters that were passed to your script file from the command line?
+  • ARGV
+
+  What does #send do?
+  • calls the method specified by symbol, and passes it any given parameters
+
+  When would #send be used that’s different from just running the method on an object ‘normally’?
