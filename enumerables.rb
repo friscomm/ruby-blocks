@@ -80,12 +80,24 @@ module Enumerable
   end
 
   def my_none?(arg = nil)
-    if arg.nil?
-      puts "gimme some stuff"
-    elsif block_given?
-      puts arg
-    else
-
+    if block_given?
+      status = true
+      self.my_each do |element|
+        if yield(element)
+          status = false
+        end
+      end
+      return status
+    elsif !arg.nil?
+      status = false
+      self.my_each do |element|
+        unless arg === element
+          status = true
+        end
+      end
+      status
+    elsif !block_given? && arg.nil?
+      self.my_none? { |obj| obj }
     end
   end
 
