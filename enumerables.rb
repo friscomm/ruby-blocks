@@ -39,7 +39,7 @@ module Enumerable
     if block_given?
       status = true
       self.my_each do |element|
-        if !yield(element) #== false
+        if !yield(element)
           status = false
         end
       end
@@ -57,16 +57,24 @@ module Enumerable
     end
   end
 
-  def my_any?
+  def my_any?(arg=nil)
     if block_given?
-      fulfilled = true
+      status = false
       self.my_each do |element|
-        if yield(element) != true
-          fulfilled = false
+        if yield(element)
+          status = true
         end
       end
-      return fulfilled
-    else
+      return status
+    elsif !arg.nil?
+      status = false
+      self.my_each do |element|
+        if arg === element
+          status = true
+        end
+      end
+      status
+    elsif !block_given? && arg.nil?
       self.my_any? { |obj| obj }
     end
   end
