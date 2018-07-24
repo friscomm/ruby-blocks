@@ -108,7 +108,7 @@ module Enumerable
         if yield(element) == true
           arr << element
         end
-      end 
+      end
       arr.length
     elsif !block_given? && arg.nil?
       self.length
@@ -123,23 +123,16 @@ module Enumerable
     end
   end
 
-  # def my_count(arg=nil)
-  #   if block_given?
-  #     arr = []
-  #     self.my_each do |element|
-  #       if yield(element) == true
-  #         arr << element
-  #       end
-  #     arr.length
-  #   elsif !block_given?
-  #
-  #   else
-  #
-  #   end
-  # end
-
   def my_map
-
+    if block_given?
+      arr = []
+      for element in self do
+        arr << yield(element)
+      end
+      arr
+    else
+      self.to_enum
+    end
   end
 
   def my_inject
