@@ -101,9 +101,42 @@ module Enumerable
     end
   end
 
-  def my_count
-
+  def my_count(arg=nil)
+    if block_given?
+      arr = []
+      self.my_each do |element|
+        if yield(element) == true
+          arr << element
+        end
+      end 
+      arr.length
+    elsif !block_given? && arg.nil?
+      self.length
+    else
+      arr = []
+      self.my_each do |element|
+        if element == arg
+          arr << element
+        end
+      end
+      arr.length
+    end
   end
+
+  # def my_count(arg=nil)
+  #   if block_given?
+  #     arr = []
+  #     self.my_each do |element|
+  #       if yield(element) == true
+  #         arr << element
+  #       end
+  #     arr.length
+  #   elsif !block_given?
+  #
+  #   else
+  #
+  #   end
+  # end
 
   def my_map
 
